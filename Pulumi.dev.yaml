@@ -1,0 +1,3 @@
+config:
+  argocd-minikube:apiKey: 91401f97-4355-46b3-b6a2-23e69cbb472a
+  argocd-minikube:clusterFqdn: kubernetes.default.cluster.local

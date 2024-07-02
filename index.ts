@@ -15,16 +15,16 @@ const provider = new k8s.Provider("k8s", {
     cluster: clusterContext,
 });
 
-const ns = new k8s.core.v1.Namespace("argocd", {
+const argoNs = new k8s.core.v1.Namespace("argocd", {
     metadata: {
         name: "argocd",
     }
 }, {
-    provider
+    provider,
 });
 
-new k8s.helm.v3.Chart("argocd", {
-    namespace: ns.metadata.name,
+const argo = new k8s.helm.v3.Chart("argocd", {
+    namespace: argoNs.metadata.name,
     chart: "argo-cd",
     version: "6.10.0",
     fetchOpts: {
@@ -41,23 +41,25 @@ new k8s.helm.v3.Chart("argocd", {
         }
     }
 }, {
-    provider
+    provider,
 });
 
-new k8s.helm.v3.Chart("komodor-agent", {
+const komodor = new k8s.helm.v3.Release("komodor-agent", {
     chart: "komodor-agent",
-    version: "2.5.3",
-    fetchOpts: {
+    namespace: argoNs.metadata.name,
+    repositoryOpts: {
         repo: "https://helm-charts.komodor.io"
     },
     values: {
         apiKey: apiKey,
-        // apiKeySecret: apiKeySecret,
         clusterName: clusterFqdn,
-        timeout: "90s"
     }
 }, {
     provider,
 });
 
+// Retrieve the ArgoCD initial admin secret
+const argocdSecret = k8s.core.v1.Secret.get("argocd-initial-admin-secret", pulumi.interpolate`${argoNs.metadata.name}/argocd-initial-admin-secret`, { provider: provider, dependsOn: argo.ready });
+
+export const argocdPassword = argocdSecret.data.apply(data => Buffer.from(data["password"], "base64").toString("utf-8"));
 export const portCmd = pulumi.interpolate`kubectl port-forward svc/argocd-server -n argocd 8080:80`

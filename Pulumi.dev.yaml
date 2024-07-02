@@ -1,3 +1,4 @@
+encryptionsalt: v1:ca2WoLGUIaQ=:v1:G5HIPx1i4kN+CSI7:U+p+Pc0OPk/nxDIftRsUjY+Rj8eiWA==
 config:
-  argocd-minikube:apiKey: 91401f97-4355-46b3-b6a2-23e69cbb472a
+  argocd-minikube:apiKey: 31acae5b-0e36-49ab-8497-5c51431d45ea
   argocd-minikube:clusterFqdn: kubernetes.default.cluster.local

@@ -3,7 +3,7 @@
 # this is a post-run script to be executed after the pulumi program contained within this repo has been successfully `pulumi up`-ed
 # note, since we are using minikube for this test example, we are required to utilize port-forwarding to access the argocd server
 argocd login localhost:8080 --port-forward-namespace argocd --username admin \
- --password $(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d) \
+ --password $(pulumi stack output argocdPassword --show-secrets) \
  --insecure
 
 argocd cluster add minikube --server localhost:8080 --yes \

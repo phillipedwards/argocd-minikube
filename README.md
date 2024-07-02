@@ -1,1 +1,1 @@
-# Argocd - Minikube - Komodor
+# Argocd - Minikube - Komodor 

@@ -12,5 +12,5 @@ argocd cluster add minikube --server localhost:8080 --yes \
 kubectl config set-context --current --namespace=argocd
 
  argocd app create guestbook --repo https://github.com/phillipedwards/argocd-minikube.git \
-  --dest-server https://kubernetes.default.svc --dest-namespace default \
+  --dest-server https://kubernetes.default.svc --dest-namespace argocd \
   --server localhost:8080 --path guestbook

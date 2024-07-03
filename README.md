@@ -12,6 +12,10 @@ It also contains the necessary tooling to onboard the `guestbook` application to
 
 1. Create a kubernetes cluster. Note, this repo uses minikube however any cluster (local, private cloud, or public cloud) works.
 
+```bash
+minikube start
+```
+
 2. Create a [Komodor](https://app.komodor.com) account and retrieve an API key to connect your cluster to Komodor.
 
 3. Clone this repository
@@ -25,6 +29,7 @@ cd argo-minikube
 
 ```bash
 # note you can use any Pulumi backend (cloud, oss, local, etc)
+npm install # install all node dependencies
 pulumi login --local 
 pulumi stack init {your_stack_name}
 pulumi config set apiKey {komodor_api_key from above}
@@ -34,7 +39,7 @@ pulumi config set clusterFqdn {kubernetes.default.cluster.local} # any FQDN is v
 5. Deploy the Komodor Agent and Argo CD
 
 ```bash
-pulumi up --yes
+pulumi up --skip-preview
 ```
 
 6. OPTIONAL: if we are using minikube, we need to setup [port-forwarding](https://kubernetes.io/docs/tasks/access-application-cluster/port-forward-access-application-cluster/#forward-a-local-port-to-a-port-on-the-pod) to access Argo CD

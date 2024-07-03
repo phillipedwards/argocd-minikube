@@ -44,7 +44,7 @@ const argo = new k8s.helm.v3.Chart("argocd", {
     provider,
 });
 
-const komodor = new k8s.helm.v3.Release("komodor-agent", {
+new k8s.helm.v3.Release("komodor-agent", {
     chart: "komodor-agent",
     repositoryOpts: {
         repo: "https://helm-charts.komodor.io"
